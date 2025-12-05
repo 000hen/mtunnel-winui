@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MTunnel (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "MTunnel (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

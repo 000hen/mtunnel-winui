@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="MTunnel.Pages.DefaultPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MTunnel.Components"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Padding="24"
+        Grid.Row="1"
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel Spacing="12">
+            <TextBlock
+                Text="Enter a token to connect"
+                FontSize="18"
+                FontWeight="SemiBold"/>
+
+            <TextBlock
+                Text="If you just received a token, enter it here to connect to the server."
+                TextWrapping="Wrap"/>
+
+            <Grid
+                Width="{Binding ActualWidth, ElementName=RootContainer}"
+                ColumnSpacing="12"
+                HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="80"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBox
+                    x:Name="TokenTextBox"
+                    Grid.Column="0"
+                    PlaceholderText="Enter token here"/>
+
+                <TextBox
+                    x:Name="PortTextBlock"
+                    Grid.Column="1"
+                    PlaceholderText="Port"
+                    InputScope="Number"
+                    TextWrapping="Wrap"
+                    BeforeTextChanging="OnPortTextBoxBeforeTextChanging"/>
+            </Grid>
+
+            <local:ButtonIconText
+                x:Name="ConnectButton"
+                IconGlyph="&#xE71B;"
+                Text="Connect"/>
+
+            <NavigationViewItemSeparator />
+
+            <local:ButtonIconText
+                x:Name="CreateButton"
+                IconGlyph="&#xE72D;"
+                Text="Create a new Tunnel"
+                Click="CreateButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>
