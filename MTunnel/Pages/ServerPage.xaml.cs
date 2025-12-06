@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Linq;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -12,7 +13,6 @@ namespace MTunnel.Pages {
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class ServerPage : Page {
-        public ObservableCollection<ConnectedClient> Clients { get; set; } = [];
         public ServerPageViewModel ViewModel { get; } = new();
 
         public ServerPage() {
@@ -28,6 +28,10 @@ namespace MTunnel.Pages {
                     HandleClientAdd(connectedPayload);
                     break;
 
+                case DisconnectPayload disconnectPayload:
+                    HandleClientDisconnect(disconnectPayload);
+                    break;
+
                 case TokenPayload tokenPayload:
                     Debug.WriteLine($"Token {tokenPayload.Token}");
                     _ = DispatcherQueue.TryEnqueue(() => {
@@ -37,25 +41,22 @@ namespace MTunnel.Pages {
             }
         }
 
-        private void ToggleShowToken() {
-            if (Clients.Count > 0) {
-                ConnectedViewPanel.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-                TokenViewPanel.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-                return;
-            }
-
-            ConnectedViewPanel.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-            TokenViewPanel.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-        }
-
         private void HandleClientAdd(ConnectedPayload payload) {
             _ = DispatcherQueue.TryEnqueue(() => {
-                Clients.Add(new ConnectedClient {
+                ViewModel.AddClient(new ConnectedClient {
                     ID = payload.SessionId,
                     ConnectionPath = $"{payload.Addr}:{payload.Port}",
                     ConnectedAt = DateTime.Now
                 });
-                ToggleShowToken();
+            });
+        }
+
+        private void HandleClientDisconnect(DisconnectPayload payload) {
+            _ = DispatcherQueue.TryEnqueue(() => {
+                var client = ViewModel.Clients.FirstOrDefault(c => c.ID == payload.SessionId);
+                if (client != null) {
+                    ViewModel.RemoveClient(client);
+                }
             });
         }
 
@@ -65,6 +66,7 @@ namespace MTunnel.Pages {
     }
 
     public partial class ServerPageViewModel : INotifyPropertyChanged {
+        public ObservableCollection<ConnectedClient> Clients { get; set; } = [];
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private string token = string.Empty;
@@ -83,8 +85,19 @@ namespace MTunnel.Pages {
 
         public bool IsTokenEmpty => string.IsNullOrEmpty(token);
         public bool IsTokenNotEmpty => !IsTokenEmpty;
+        public bool IsNoClients => Clients.Count == 0;
         protected void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
+        public void AddClient(ConnectedClient client) {
+            Clients.Add(client);
+            OnPropertyChanged(nameof(IsNoClients));
+        }
+
+        public void RemoveClient(ConnectedClient client) {
+            Clients.Remove(client);
+            OnPropertyChanged(nameof(IsNoClients));
+        }
     }
 
     public class ConnectedClient {
