@@ -29,8 +29,9 @@
                 </StackPanel>
 
                 <Grid
+                    Visibility="{x:Bind ViewModel.IsTokenNotEmpty, Mode=OneWay}"
                     Background="{ThemeResource SolidBackgroundFillColorQuarternaryBrush}" 
-                    CornerRadius="8" 
+                    CornerRadius="8"
                     Padding="12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -38,7 +39,7 @@
                     </Grid.ColumnDefinitions>
 
                     <TextBlock
-                        Text="{Binding Token}"
+                        Text="{x:Bind ViewModel.Token, Mode=OneWay}"
                         x:Name="TokenTextBlock"
                         FontFamily="Consolas"
                         TextWrapping="Wrap"
@@ -47,11 +48,15 @@
                         Margin="0,0,12,0"/>
 
                     <localComponents:CopyButton
-                        Token="{Binding Token}"
+                        Token="{x:Bind ViewModel.Token, Mode=OneWay}"
                         Grid.Column="1"/>
                 </Grid>
 
-                <StackPanel x:Name="GeneratingTokenPanel" Visibility="Collapsed" Orientation="Horizontal" Spacing="12">
+                <StackPanel
+                    x:Name="GeneratingTokenPanel"
+                    Visibility="{x:Bind ViewModel.IsTokenEmpty, Mode=OneWay}"
+                    Orientation="Horizontal"
+                    Spacing="12">
                     <ProgressRing IsActive="True" Width="20" Height="20"/>
                     <TextBlock Text="Generating token, please wait..." VerticalAlignment="Center"/>
                 </StackPanel>

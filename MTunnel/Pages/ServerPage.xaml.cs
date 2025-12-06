@@ -67,7 +67,7 @@ namespace MTunnel.Pages {
     public partial class ServerPageViewModel : INotifyPropertyChanged {
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        private string token = "Generating token, please wait...";
+        private string token = string.Empty;
         public string Token {
             get => token;
             set {
@@ -76,8 +76,13 @@ namespace MTunnel.Pages {
 
                 token = value;
                 OnPropertyChanged(nameof(Token));
+                OnPropertyChanged(nameof(IsTokenEmpty));
+                OnPropertyChanged(nameof(IsTokenNotEmpty));
             }
         }
+
+        public bool IsTokenEmpty => string.IsNullOrEmpty(token);
+        public bool IsTokenNotEmpty => !IsTokenEmpty;
         protected void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
