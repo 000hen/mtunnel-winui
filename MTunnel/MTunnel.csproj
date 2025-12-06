@@ -14,7 +14,12 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Components\ButtonIconText.xaml" />
+    <None Remove="Components\CopyButton.xaml" />
+    <None Remove="Components\HostDialogControl.xaml" />
+    <None Remove="Components\PortTextBox.xaml" />
     <None Remove="Pages\DefaultPage.xaml" />
+    <None Remove="Pages\ServerPage.xaml" />
+    <None Remove="Pages\TunnelLog.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -54,13 +59,28 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Page Update="Components\PortTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Components\HostDialogControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Components\CopyButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="executable\tunnel.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Pages\ServerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Pages\TunnelLog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 
   <Target Name="BuildTunnel" BeforeTargets="BeforeBuild">
-    <Exec Command="cd $(ProjectDir)../modules/mtunnel &amp;&amp; go build -o $(ProjectDir)executable/tunnel.exe ./cmd/tunnel/"/>
+    <Exec Command="cd $(ProjectDir)../modules/mtunnel &amp;&amp; go build -o $(ProjectDir)executable/tunnel.exe ./cmd/tunnel/" />
   </Target>
 
   <!--

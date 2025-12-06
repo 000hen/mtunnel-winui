@@ -13,7 +13,7 @@
         <MicaBackdrop Kind="Base"/>
     </Window.SystemBackdrop>
 
-    <Grid>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -23,7 +23,7 @@
             x:Name="SimpleTitleBar"
             Title="MTunnel">
             <TitleBar.IconSource>
-                <FontIconSource Glyph="&#xF4AA;"/>
+                <ImageIconSource ImageSource="/Assets/WindowIcon.ico"/>
             </TitleBar.IconSource>
         </TitleBar>
 

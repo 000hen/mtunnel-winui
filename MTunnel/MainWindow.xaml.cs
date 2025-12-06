@@ -5,28 +5,40 @@ using MTunnel.Pages;
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace MTunnel
-{
+namespace MTunnel {
     /// <summary>
     /// An empty window that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
+    public sealed partial class MainWindow : Window {
+        public MainWindow() {
             InitializeComponent();
             ExtendsContentIntoTitleBar = true;
 
             AppWindow.Resize(new Windows.Graphics.SizeInt32(400, 600));
             var _presenter = AppWindow.Presenter as OverlappedPresenter;
 
-            if (_presenter != null)
-            {
+            if (_presenter != null) {
                 _presenter.IsResizable = false;
                 _presenter.IsMaximizable = false;
             }
 
+            ProcessHandler.Instance.OnProcessEvent += OnTunnelEvent;
+
             MainFrame.Navigate(typeof(DefaultPage));
+        }
+
+        private void OnTunnelEvent(ProcessEvent obj) {
+            switch (obj) {
+                case BackendStopped:
+                    OnTunnelTerminated();
+                    break;
+            }
+        }
+
+        private void OnTunnelTerminated() {
+            _ = DispatcherQueue.TryEnqueue(() => {
+                MainFrame.GoBack();
+            });
         }
     }
 }

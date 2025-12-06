@@ -12,8 +12,7 @@
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
         Padding="24"
-        Grid.Row="1"
-        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        Grid.Row="1">
         <StackPanel Spacing="12">
             <TextBlock
                 Text="Enter a token to connect"
@@ -38,13 +37,9 @@
                     Grid.Column="0"
                     PlaceholderText="Enter token here"/>
 
-                <TextBox
-                    x:Name="PortTextBlock"
-                    Grid.Column="1"
-                    PlaceholderText="Port"
-                    InputScope="Number"
-                    TextWrapping="Wrap"
-                    BeforeTextChanging="OnPortTextBoxBeforeTextChanging"/>
+                <local:PortTextBox
+                    x:Name="PortTextBox"
+                    Grid.Column="1"/>
             </Grid>
 
             <local:ButtonIconText
@@ -59,6 +54,13 @@
                 IconGlyph="&#xE72D;"
                 Text="Create a new Tunnel"
                 Click="CreateButton_Click"/>
+
+            <CheckBox
+                x:Name="LogviewerCheckBox"
+                Content="Enable logviewer"
+                IsChecked="{x:Bind IsLogviewerOpen}"
+                Checked="LogviewerEnable"
+                Unchecked="LogviewerDisable"/>
         </StackPanel>
     </Grid>
 </Page>

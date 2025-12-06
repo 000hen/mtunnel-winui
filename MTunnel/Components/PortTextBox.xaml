@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UserControl
-    x:Class="MTunnel.Components.ButtonIconText"
+    x:Class="MTunnel.Components.PortTextBox"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MTunnel.Components"
@@ -8,13 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Button
-        x:Name="CreateButton"
-        HorizontalAlignment="{x:Bind HorizontalAlignment}"
-        Click="OnInternalButtonClick">
-        <StackPanel Orientation="Horizontal" Spacing="8">
-            <FontIcon Glyph="{x:Bind IconGlyph}" FontSize="16" />
-            <TextBlock Text="{x:Bind Text}" />
-        </StackPanel>
-    </Button>
+    <TextBox
+        x:Name="PortTextBlock"
+        Grid.Column="1"
+        PlaceholderText="Port"
+        InputScope="Number"
+        TextWrapping="Wrap"
+        BeforeTextChanging="OnPortTextBoxBeforeTextChanging"/>
 </UserControl>

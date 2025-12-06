@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UserControl
-    x:Class="MTunnel.Components.ButtonIconText"
+    x:Class="MTunnel.Components.CopyButton"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MTunnel.Components"
@@ -9,12 +9,13 @@
     mc:Ignorable="d">
 
     <Button
-        x:Name="CreateButton"
-        HorizontalAlignment="{x:Bind HorizontalAlignment}"
-        Click="OnInternalButtonClick">
-        <StackPanel Orientation="Horizontal" Spacing="8">
-            <FontIcon Glyph="{x:Bind IconGlyph}" FontSize="16" />
-            <TextBlock Text="{x:Bind Text}" />
-        </StackPanel>
+        Background="{x:Bind Background}"
+        BorderBrush="{x:Bind BorderBrush}"
+        BorderThickness="{x:Bind BorderThickness}"
+        Grid.Column="1"
+        VerticalAlignment="Top"
+        Padding="8"
+        Click="OnCopyClick">
+        <FontIcon Glyph="&#xE8C8;" FontSize="14"/>
     </Button>
 </UserControl>
