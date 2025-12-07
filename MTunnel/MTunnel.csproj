@@ -91,8 +91,17 @@
     </Page>
   </ItemGroup>
 
-  <Target Name="BuildTunnel" BeforeTargets="BeforeBuild">
-    <Exec Command="cd $(ProjectDir)../modules/mtunnel &amp;&amp; go build -o $(ProjectDir)executable/tunnel.exe ./cmd/tunnel/" />
+  <PropertyGroup>
+    <GoArch Condition="'$(Platform)'=='x64'">amd64</GoArch>
+    <GoArch Condition="'$(Platform)'=='x86'">386</GoArch>
+
+    <GoArch Condition="'$(GoArch)'==''">amd64</GoArch>
+  </PropertyGroup>
+
+  <Target Name="BuildGoModule" BeforeTargets="BeforeBuild">
+    <Message Text="Building Go module with GOARCH=$(GoArch)" Importance="high" />
+
+    <Exec WorkingDirectory="$(ProjectDir)..\modules\mtunnel" Command="set GOOS=windows&amp;&amp; set GOARCH=$(GoArch)&amp;&amp; go build -o $(ProjectDir)executable\tunnel.exe ./cmd/tunnel/" />
   </Target>
 
   <!--
@@ -113,7 +122,7 @@
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningEnabled>False</AppxPackageSigningEnabled>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Auto</AppxBundle>
     <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>

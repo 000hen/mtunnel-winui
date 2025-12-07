@@ -11,7 +11,7 @@
   <Identity
     Name="MuisnowDevs.1189071A29668"
     Publisher="CN=D695C2EB-16D9-4BB6-8331-4FE2F278B676"
-    Version="1.0.1.0" />
+    Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="4aa43045-6773-4ba3-9242-7f06491451fd" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -48,5 +48,7 @@
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
+    <Capability Name="internetClient"/>
+    <Capability Name="internetClientServer"/>
   </Capabilities>
 </Package>
