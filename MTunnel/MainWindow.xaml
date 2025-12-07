@@ -23,7 +23,7 @@
             x:Name="SimpleTitleBar"
             Title="MTunnel">
             <TitleBar.IconSource>
-                <ImageIconSource ImageSource="/Assets/WindowIcon.ico"/>
+                <ImageIconSource ImageSource="/Assets/StoreLogo.png"/>
             </TitleBar.IconSource>
         </TitleBar>
 
