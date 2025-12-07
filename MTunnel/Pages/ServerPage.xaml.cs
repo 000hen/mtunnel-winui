@@ -1,4 +1,3 @@
-using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
@@ -69,27 +68,11 @@ namespace MTunnel.Pages {
             ProcessHandler.Instance.DisconnectClient(client.ID);
         }
 
-        private void TerminateClick(object sender, RoutedEventArgs e) {
-            if (InputKeyboardSource
-                .GetKeyStateForCurrentThread(Windows.System.VirtualKey.Shift)
-                .HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down)) {
-                var dialog = new ContentDialog {
-                    Title = "Force terminate tunnel",
-                    Content = "Are you sure you want to forcibly terminate the tunnel process? This may cause data loss for connected clients.",
-                    CloseButtonText = "Cancel",
-                    PrimaryButtonText = "Terminate",
-                    DefaultButton = ContentDialogButton.Primary,
-                    XamlRoot = XamlRoot
-                };
+        private void ForceTerminate(object sender, RoutedEventArgs e) {
+            ProcessHandler.Instance.KillProcess();
+        }
 
-                dialog.PrimaryButtonClick += (s, args) => {
-                    ProcessHandler.Instance.KillProcess();
-                };
-
-                _ = dialog.ShowAsync();
-                return;
-            }
-
+        private void Terminate(object sender, RoutedEventArgs e) {
             ProcessHandler.Instance.ShutdownBackend();
         }
     }
@@ -114,18 +97,21 @@ namespace MTunnel.Pages {
 
         public bool IsTokenEmpty => string.IsNullOrEmpty(token);
         public bool IsTokenNotEmpty => !IsTokenEmpty;
-        public bool IsNoClients => Clients.Count == 0;
+        public bool IsClientListEmpty => Clients.Count == 0;
+        public bool IsClientListNotEmpty => !IsClientListEmpty;
         protected void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         public void AddClient(ConnectedClient client) {
             Clients.Add(client);
-            OnPropertyChanged(nameof(IsNoClients));
+            OnPropertyChanged(nameof(IsClientListEmpty));
+            OnPropertyChanged(nameof(IsClientListNotEmpty));
         }
 
         public void RemoveClient(ConnectedClient client) {
             Clients.Remove(client);
-            OnPropertyChanged(nameof(IsNoClients));
+            OnPropertyChanged(nameof(IsClientListEmpty));
+            OnPropertyChanged(nameof(IsClientListNotEmpty));
         }
     }
 

@@ -12,12 +12,13 @@
         x:Name="CreateButton"
         HorizontalAlignment="{x:Bind HorizontalAlignment}"
         Click="OnInternalButtonClick"
-        Tag="{x:Bind Tag}"
-        Command="{x:Bind Command}"
-        CommandParameter="{x:Bind CommandParameter}">
+        Tag="{x:Bind Tag, Mode=OneWay}"
+        Command="{x:Bind Command, Mode=OneWay}"
+        CommandParameter="{x:Bind CommandParameter, Mode=OneWay}"
+        IsEnabled="{x:Bind IsEnabled, Mode=OneWay}">
         <StackPanel Orientation="Horizontal" Spacing="8">
             <FontIcon Glyph="{x:Bind IconGlyph}" FontSize="16" />
-            <TextBlock Text="{x:Bind Text}" />
+            <TextBlock Text="{x:Bind Content}" />
         </StackPanel>
     </Button>
 </UserControl>

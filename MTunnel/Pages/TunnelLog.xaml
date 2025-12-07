@@ -47,10 +47,11 @@
                 Spacing="8">
                 <localComponent:ButtonIconText
                     HorizontalAlignment="Left"
-                    Text="Clear"
                     IconGlyph="&#xE74D;"
-                    Click="ClearButton_Click"/>
-                
+                    Click="ClearButton_Click">
+                    Clear
+                </localComponent:ButtonIconText>
+
                 <CheckBox
                     x:Name="StdOutCheckBox"
                     Content="Stdout"

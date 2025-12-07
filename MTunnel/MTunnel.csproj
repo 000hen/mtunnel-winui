@@ -14,9 +14,11 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Components\ButtonIconText.xaml" />
+    <None Remove="Components\ControlOptionsControl.xaml" />
     <None Remove="Components\CopyButton.xaml" />
     <None Remove="Components\HostDialogControl.xaml" />
     <None Remove="Components\PortTextBox.xaml" />
+    <None Remove="Pages\ClientPage.xaml" />
     <None Remove="Pages\DefaultPage.xaml" />
     <None Remove="Pages\ServerPage.xaml" />
     <None Remove="Pages\TunnelLog.xaml" />
@@ -73,9 +75,15 @@
     <Page Update="Components\CopyButton.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Update="Components\ControlOptionsControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <None Update="executable\tunnel.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Page Update="Pages\ClientPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Pages\ServerPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

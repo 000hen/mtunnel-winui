@@ -93,6 +93,7 @@ namespace MTunnel {
                 throw new InvalidOperationException("Process is already running.");
             }
 
+            OnStdErr?.Invoke($"Starting process with arguments: {arguemnts}");
             _process = new Process {
                 StartInfo = new ProcessStartInfo {
                     FileName = _executablePath,

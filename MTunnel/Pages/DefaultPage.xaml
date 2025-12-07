@@ -5,7 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:MTunnel.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:pages="using:MTunnel.Pages"
+    d:DataContext="{d:DesignInstance Type=pages:DefaultPageViewModel}"
     mc:Ignorable="d">
 
     <Grid
@@ -15,13 +16,14 @@
         Grid.Row="1">
         <StackPanel Spacing="12">
             <TextBlock
-                Text="Enter a token to connect"
                 FontSize="18"
-                FontWeight="SemiBold"/>
+                FontWeight="SemiBold">
+                Enter a token to connect
+            </TextBlock>
 
-            <TextBlock
-                Text="If you just received a token, enter it here to connect to the server."
-                TextWrapping="Wrap"/>
+            <TextBlock TextWrapping="Wrap">
+                If you just received a token, enter it here to connect to the server.
+            </TextBlock>
 
             <Grid
                 Width="{Binding ActualWidth, ElementName=RootContainer}"
@@ -35,7 +37,8 @@
                 <TextBox
                     x:Name="TokenTextBox"
                     Grid.Column="0"
-                    PlaceholderText="Enter token here"/>
+                    PlaceholderText="Enter token here"
+                    Text="{x:Bind ViewModel.Token, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                 <local:PortTextBox
                     x:Name="PortTextBox"
@@ -45,15 +48,19 @@
             <local:ButtonIconText
                 x:Name="ConnectButton"
                 IconGlyph="&#xE71B;"
-                Text="Connect"/>
+                IsEnabled="{x:Bind ViewModel.CanConnect, Mode=OneWay}"
+                Click="ConnectButton_Click">
+                Connect
+            </local:ButtonIconText>
 
             <NavigationViewItemSeparator />
 
             <local:ButtonIconText
                 x:Name="CreateButton"
                 IconGlyph="&#xE72D;"
-                Text="Create a new Tunnel"
-                Click="CreateButton_Click"/>
+                Click="CreateButton_Click">
+                Create a new Tunnel
+            </local:ButtonIconText>
 
             <CheckBox
                 x:Name="LogviewerCheckBox"

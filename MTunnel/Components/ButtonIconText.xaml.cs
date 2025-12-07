@@ -14,13 +14,13 @@ namespace MTunnel.Components {
             InitializeComponent();
         }
 
-        public string Text {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+        public new string Content {
+            get { return (string)GetValue(ContentProperty); }
+            set { SetValue(ContentProperty, value); }
         }
 
-        public static readonly DependencyProperty TextProperty =
-            DependencyProperty.Register("Text", typeof(string), typeof(ButtonIconText), new PropertyMetadata(string.Empty));
+        public static new readonly DependencyProperty ContentProperty =
+            DependencyProperty.Register("Content", typeof(string), typeof(ButtonIconText), new PropertyMetadata(string.Empty));
 
         public string IconGlyph {
             get => (string)GetValue(IconGlyphProperty);

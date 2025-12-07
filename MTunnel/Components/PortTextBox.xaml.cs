@@ -10,7 +10,7 @@ namespace MTunnel.Components {
                 if (int.TryParse(PortTextBlock.Text, out int portNumber)) {
                     return portNumber;
                 }
-                return -1;
+                return 0;
             }
         }
 
@@ -25,7 +25,7 @@ namespace MTunnel.Components {
             }
 
             bool isNumeric = int.TryParse(newText, out int portNumber);
-            if (!isNumeric || portNumber < 0 || portNumber > 65535) {
+            if (!isNumeric || portNumber <= 0 || portNumber > 65535) {
                 args.Cancel = true;
             }
         }

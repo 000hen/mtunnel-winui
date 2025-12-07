@@ -10,10 +10,10 @@
     mc:Ignorable="d">
 
     <StackPanel Spacing="8">
-        <TextBlock Text="Port:"/>
+        <TextBlock>Port:</TextBlock>
         <localComponents:PortTextBox x:Name="PortTextBox"/>
 
-        <TextBlock Text="Protocol:"/>
+        <TextBlock>Protocol:</TextBlock>
         <ComboBox x:Name="ProtocolBox" SelectedIndex="0">
             <ComboBoxItem Content="tcp"/>
             <ComboBoxItem Content="udp"/>

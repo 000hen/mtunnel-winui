@@ -23,15 +23,16 @@
         <Grid Grid.Row="1" VerticalAlignment="Top">
             <StackPanel
                 x:Name="TokenViewPanel"
-                Visibility="{x:Bind ViewModel.IsNoClients, Mode=OneWay}"
+                Visibility="{x:Bind ViewModel.IsClientListEmpty, Mode=OneWay}"
                 Spacing="12"
                 Padding="16,0">
                 <StackPanel Spacing="4">
-                    <TextBlock Text="Token" Style="{ThemeResource SubtitleTextBlockStyle}"/>
+                    <TextBlock Style="{ThemeResource SubtitleTextBlockStyle}">Token</TextBlock>
                     <TextBlock
-                        Text="Please share this token with clients to connect" 
                         Style="{ThemeResource BodyTextBlockStyle}" 
-                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                        Please share this token with clients to connect
+                    </TextBlock>
                 </StackPanel>
 
                 <Grid
@@ -64,12 +65,13 @@
                     Orientation="Horizontal"
                     Spacing="12">
                     <ProgressRing IsActive="True" Width="20" Height="20"/>
-                    <TextBlock Text="Generating token, please wait..." VerticalAlignment="Center"/>
+                    <TextBlock VerticalAlignment="Center">Generating token, please wait...</TextBlock>
                 </StackPanel>
             </StackPanel>
 
             <ListView
                 x:Name="ConnectedViewPanel"
+                Visibility="{x:Bind ViewModel.IsClientListNotEmpty, Mode=OneWay}"
                 ItemsSource="{x:Bind ViewModel.Clients}"
                 HorizontalAlignment="Stretch"
                 Width="Auto"
@@ -86,9 +88,10 @@
 
                             <StackPanel Orientation="Horizontal" Spacing="4">
                                 <TextBlock
-                                    Text="From:"
                                     Style="{ThemeResource CaptionTextBlockStyle}"
-                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"/>
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}">
+                                    From:
+                                </TextBlock>
 
                                 <TextBlock
                                     Text="{x:Bind ConnectionPath}" 
@@ -101,13 +104,13 @@
 
 
                             <localComponents:ButtonIconText
-                                x:Name="DisconnectButton" 
-                                Text="Disconnect"
+                                x:Name="DisconnectButton"
                                 IconGlyph="&#xE711;"
                                 HorizontalAlignment="Stretch"
                                 Click="OnDisconnectClick"
                                 Tag="{x:Bind}"
                                 Margin="0,12,0,12">
+                                Disconnect
                             </localComponents:ButtonIconText>
                         </StackPanel>
                     </DataTemplate>
@@ -115,29 +118,11 @@
             </ListView>
         </Grid>
 
-        <Grid
+        <localComponents:ControlOptionsControl
+            x:Name="ControlOptionsControl"
             Grid.Row="2"
-            Padding="16"
-            ColumnSpacing="8"
-            Background="{ThemeResource LayerFillColorDefaultBrush}"
-            BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
-            BorderThickness="0,1,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <localComponents:ButtonIconText
-                Text="Terminate"
-                IconGlyph="&#xE711;"
-                Click="TerminateClick"/>
-
-            <localComponents:CopyButton
-                Token="{x:Bind ViewModel.Token, Mode=OneWay}"
-                BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
-                BorderThickness="1"
-                x:Name="CloseButton"
-                Grid.Column="1"/>
-        </Grid>
+            TerminateClick="Terminate"
+            ForceTerminateClick="ForceTerminate"
+            Token="{x:Bind ViewModel.Token, Mode=OneWay}"/>
     </Grid>
 </Page>
