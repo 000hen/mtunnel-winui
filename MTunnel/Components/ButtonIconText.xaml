@@ -11,7 +11,10 @@
     <Button
         x:Name="CreateButton"
         HorizontalAlignment="{x:Bind HorizontalAlignment}"
-        Click="OnInternalButtonClick">
+        Click="OnInternalButtonClick"
+        Tag="{x:Bind Tag}"
+        Command="{x:Bind Command}"
+        CommandParameter="{x:Bind CommandParameter}">
         <StackPanel Orientation="Horizontal" Spacing="8">
             <FontIcon Glyph="{x:Bind IconGlyph}" FontSize="16" />
             <TextBlock Text="{x:Bind Text}" />

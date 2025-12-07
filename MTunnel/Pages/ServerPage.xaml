@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
+    x:Name="ServerPageView"
     x:Class="MTunnel.Pages.ServerPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,6 +8,7 @@
     xmlns:localComponents="using:MTunnel.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DataContext="{d:DesignInstance Type=local:ServerPageViewModel}"
     mc:Ignorable="d">
 
     <Grid>
@@ -96,13 +98,15 @@
                                     IsTextSelectionEnabled="True"
                                     TextWrapping="Wrap"/>
                             </StackPanel>
-                            
+
 
                             <localComponents:ButtonIconText
                                 x:Name="DisconnectButton" 
                                 Text="Disconnect"
                                 IconGlyph="&#xE711;"
                                 HorizontalAlignment="Stretch"
+                                Click="OnDisconnectClick"
+                                Tag="{x:Bind}"
                                 Margin="0,12,0,12">
                             </localComponents:ButtonIconText>
                         </StackPanel>
@@ -129,7 +133,7 @@
                 Click="TerminateClick"/>
 
             <localComponents:CopyButton
-                Token="{Binding Token}"
+                Token="{x:Bind ViewModel.Token, Mode=OneWay}"
                 BorderBrush="{ThemeResource SurfaceStrokeColorDefaultBrush}"
                 BorderThickness="1"
                 x:Name="CloseButton"

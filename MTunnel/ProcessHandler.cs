@@ -14,6 +14,7 @@ namespace MTunnel {
         LIST,
         BACKEND_STARTED,
         ERROR,
+        SHUTDOWN
     }
 
     public enum ProcessType {
@@ -136,7 +137,7 @@ namespace MTunnel {
             StartProcess(args);
         }
 
-        public void StopProcess() {
+        public void KillProcess() {
             if (_process != null && !_process.HasExited) {
                 OnStdErr?.Invoke("Stopping process...");
 
@@ -151,6 +152,31 @@ namespace MTunnel {
         private void ProcessExit() {
             OnProcessEvent?.Invoke(new BackendStopped());
             OnStdErr?.Invoke("Process has exited.");
+        }
+
+        private void SendStdIn(string input) {
+            if (_process == null || _process.HasExited) {
+                OnStdErr?.Invoke("Process is not running.");
+                return;
+            }
+
+            _process.StandardInput.WriteLine(input);
+            OnStdIn?.Invoke(input);
+        }
+
+        public void DisconnectClient(string sessionId) {
+            var command = JsonSerializer.Serialize(new {
+                action = RawActionType.DISCONNECT.ToString(),
+                session_id = sessionId
+            });
+            SendStdIn(command);
+        }
+
+        public void ShutdownBackend() {
+            var command = JsonSerializer.Serialize(new {
+                action = RawActionType.SHUTDOWN.ToString()
+            });
+            SendStdIn(command);
         }
 
         private void HandleStdOut(string line) {
@@ -200,7 +226,7 @@ namespace MTunnel {
                     if (dec.Sessions == null) {
                         return;
                     }
-                    OnProcessEvent?.Invoke(new ListPayload(dec.Sessions.ToArray()));
+                    OnProcessEvent?.Invoke(new ListPayload([.. dec.Sessions]));
                     break;
 
                 case RawActionType.ERROR:
@@ -214,7 +240,7 @@ namespace MTunnel {
                     if (dec.StartedInfo == null) {
                         return;
                     }
-                    var type = dec.StartedInfo.ProcessType.ToLower() == "host"
+                    var type = dec.StartedInfo.ProcessType.Equals("host", StringComparison.CurrentCultureIgnoreCase)
                         ? ProcessType.Host
                         : ProcessType.Client;
                     OnProcessEvent?.Invoke(new BackendStarted(

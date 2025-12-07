@@ -1,3 +1,5 @@
+using Microsoft.UI.Input;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.ObjectModel;
@@ -45,8 +47,8 @@ namespace MTunnel.Pages {
             _ = DispatcherQueue.TryEnqueue(() => {
                 ViewModel.AddClient(new ConnectedClient {
                     ID = payload.SessionId,
-                    ConnectionPath = $"{payload.Addr}:{payload.Port}",
-                    ConnectedAt = DateTime.Now
+                    ConnectionPath = payload.Addr ?? "Unknown",
+                    ConnectedAt = DateTime.Now,
                 });
             });
         }
@@ -60,8 +62,35 @@ namespace MTunnel.Pages {
             });
         }
 
-        private void TerminateClick(object sender, Microsoft.UI.Xaml.RoutedEventArgs e) {
-            ProcessHandler.Instance.StopProcess();
+        private void OnDisconnectClick(object sender, RoutedEventArgs e) {
+            if (sender is not FrameworkElement element || element.Tag is not ConnectedClient client)
+                return;
+
+            ProcessHandler.Instance.DisconnectClient(client.ID);
+        }
+
+        private void TerminateClick(object sender, RoutedEventArgs e) {
+            if (InputKeyboardSource
+                .GetKeyStateForCurrentThread(Windows.System.VirtualKey.Shift)
+                .HasFlag(Windows.UI.Core.CoreVirtualKeyStates.Down)) {
+                var dialog = new ContentDialog {
+                    Title = "Force terminate tunnel",
+                    Content = "Are you sure you want to forcibly terminate the tunnel process? This may cause data loss for connected clients.",
+                    CloseButtonText = "Cancel",
+                    PrimaryButtonText = "Terminate",
+                    DefaultButton = ContentDialogButton.Primary,
+                    XamlRoot = XamlRoot
+                };
+
+                dialog.PrimaryButtonClick += (s, args) => {
+                    ProcessHandler.Instance.KillProcess();
+                };
+
+                _ = dialog.ShowAsync();
+                return;
+            }
+
+            ProcessHandler.Instance.ShutdownBackend();
         }
     }
 
