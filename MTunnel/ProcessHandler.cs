@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 
 namespace MTunnel {
@@ -68,6 +69,10 @@ namespace MTunnel {
         [JsonPropertyName("addr")]
         public string? Addr { get; set; }
     }
+
+    [JsonSourceGenerationOptions(WriteIndented = false)]
+    [JsonSerializable(typeof(StdoutEvent))]
+    internal partial class StdoutJsonContext : JsonSerializerContext { }
 
     internal class ProcessHandler {
         private static ProcessHandler? _instance;
@@ -166,22 +171,22 @@ namespace MTunnel {
         }
 
         public void DisconnectClient(string sessionId) {
-            var command = JsonSerializer.Serialize(new {
-                action = RawActionType.DISCONNECT.ToString(),
-                session_id = sessionId
-            });
-            SendStdIn(command);
+            var command = new JsonObject {
+                ["action"] = RawActionType.DISCONNECT.ToString(),
+                ["session_id"] = sessionId
+            };
+            SendStdIn(command.ToJsonString());
         }
 
         public void ShutdownBackend() {
-            var command = JsonSerializer.Serialize(new {
-                action = RawActionType.SHUTDOWN.ToString()
-            });
-            SendStdIn(command);
+            var command = new JsonObject {
+                ["action"] = RawActionType.SHUTDOWN.ToString()
+            };
+            SendStdIn(command.ToJsonString());
         }
 
         private void HandleStdOut(string line) {
-            var dec = JsonSerializer.Deserialize<StdoutEvent>(line);
+            var dec = JsonSerializer.Deserialize(line, StdoutJsonContext.Default.StdoutEvent);
             if (dec == null) {
                 Console.WriteLine($"Failed to deserialize stdout: {line}");
                 OnStdErr?.Invoke($"Failed to deserialize stdout: {line}");
