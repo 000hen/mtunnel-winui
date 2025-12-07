@@ -9,15 +9,15 @@
   IgnorableNamespaces="uap rescap uap18">
 
   <Identity
-    Name="2f0a82e2-d811-4c21-bb20-fc1806938a3e"
-    Publisher="CN=hen95"
-    Version="1.0.0.0" />
+    Name="MuisnowDevs.1189071A29668"
+    Publisher="CN=D695C2EB-16D9-4BB6-8331-4FE2F278B676"
+    Version="1.0.1.0" />
 
-  <mp:PhoneIdentity PhoneProductId="2f0a82e2-d811-4c21-bb20-fc1806938a3e" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="4aa43045-6773-4ba3-9242-7f06491451fd" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
     <DisplayName>MTunnel</DisplayName>
-    <PublisherDisplayName>hen95</PublisherDisplayName>
+    <PublisherDisplayName>Muisnow Devs</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
