@@ -2,6 +2,10 @@
 
 A Windows App SDK (WinUI 3) application for managing simple client/server tunneling with a clean UI. Targeting .NET 8.
 
+<a href="https://apps.microsoft.com/detail/9NXQZPSGLW0G?referrer=appbadge">
+	<img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200"/>
+</a>
+
 ## Features
 - Client and server pages to configure tunnels
 - Port and host input components
