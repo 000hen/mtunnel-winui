@@ -94,6 +94,7 @@
   <PropertyGroup>
     <GoArch Condition="'$(Platform)'=='x64'">amd64</GoArch>
     <GoArch Condition="'$(Platform)'=='x86'">386</GoArch>
+    <GoArch Condition="'$(Platform)'=='ARM64'">arm64</GoArch>
 
     <GoArch Condition="'$(GoArch)'==''">amd64</GoArch>
   </PropertyGroup>
@@ -125,7 +126,7 @@
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Auto</AppxBundle>
-    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm64</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <GenerateTemporaryStoreCertificate>True</GenerateTemporaryStoreCertificate>
   </PropertyGroup>
