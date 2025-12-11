@@ -70,6 +70,7 @@ namespace MTunnel.Pages {
         }
 
         private void NotifyAll() {
+            OnPropertyChanged(nameof(SessionID));
             OnPropertyChanged(nameof(Port));
             OnPropertyChanged(nameof(IsConnected));
             OnPropertyChanged(nameof(IsNotConnected));
