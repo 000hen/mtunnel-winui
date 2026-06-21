@@ -99,10 +99,11 @@
     <GoArch Condition="'$(GoArch)'==''">amd64</GoArch>
   </PropertyGroup>
 
-  <Target Name="BuildGoModule" BeforeTargets="BeforeBuild">
-    <Message Text="Building Go module with GOARCH=$(GoArch)" Importance="high" />
-
-    <Exec WorkingDirectory="$(ProjectDir)..\modules\mtunnel" Command="set GOOS=windows&amp;&amp; set GOARCH=$(GoArch)&amp;&amp; go build -o $(ProjectDir)executable\tunnel.exe ./cmd/tunnel/" />
+  <Target Name="BuildGoModule"
+          BeforeTargets="BeforeBuild">
+    <Exec
+      WorkingDirectory="$(ProjectDir)..\modules\mtunnel"
+      Command="set GOOS=windows&amp;&amp; set GOARCH=$(GoArch)&amp;&amp; go build -o $(IntermediateOutputPath)tunnel.exe ./cmd/tunnel/" />
   </Target>
 
   <!--
